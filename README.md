@@ -3,11 +3,6 @@ Harbor安裝
 ===
 
 
-## Table of Contents
-
-[TOC]
-
-
 憑證準備
 ---
 ```gherkin=
@@ -121,7 +116,7 @@ kubectl get deploy nginx
 
 讓 kapp-controller 接受自簽憑證(自行安裝 kapp-controller 為例)
 ---
-> 修改
+> 方法1：修改
 ```gherkin=
 k edit cm kapp-controller-config -n kapp-controller
 ```
@@ -154,6 +149,12 @@ export INSTALL_REGISTRY_PASSWORD=VMware1!
 export INSTALL_REGISTRY_HOSTNAME=harbor.microservice.tw
 export TAP_VERSION=1.3.3
 export INSTALL_REPO=tap133
+```
+> 方法2：部署 secret
+```gherkin=
+kubectl create secret generic kapp-controller-config \
+  --namespace kapp-controller \
+  --from-file caCerts=reg.microservice.tw.crt
 ```
 
 ```gherkin=
