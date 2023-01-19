@@ -61,22 +61,6 @@ sudo cp microservice.tw.key /etc/docker/certs.d/microservice.tw/
 sudo cp ca.crt /etc/docker/certs.d/microservice.tw/
 ```
 
-讓 Linux/Docker 接受自簽憑證 
----
-```gherkin=
-sudo cp microservice.tw.crt /usr/local/share/ca-certificates/
-sudo update-ca-certificates
-sudo systemctl restart docker.service
-ls /etc/ssl/certs | awk /microservice.tw/
-```
-
-讓 Mac/Docker 接受自簽憑證 
----
-```gherkin=
-sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain reg.microservice.tw.crt
-```
-
-
 harbor下載與設定
 ---
 > 從 https://github.com/goharbor/harbor/releases 下載
@@ -91,6 +75,22 @@ private_key: /data/cert/microservice.tw.key
 harbor_admin_password: VMware1!
 ```
 > 執行 ./prepare & ./install
+
+
+讓 Linux/Docker 接受自簽憑證 
+---
+```gherkin=
+sudo cp microservice.tw.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+sudo systemctl restart docker.service
+ls /etc/ssl/certs | awk /microservice.tw/
+```
+
+讓 Mac/Docker 接受自簽憑證 
+---
+```gherkin=
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain reg.microservice.tw.crt
+```
 
 > 登入建好的 Harbor，驗證正確性
 ```gherkin=
@@ -146,7 +146,7 @@ k delete pod kapp-controller-xxxxxx -n kapp-controller
 ```gherkin=
 export INSTALL_REGISTRY_USERNAME=admin
 export INSTALL_REGISTRY_PASSWORD=VMware1!
-export INSTALL_REGISTRY_HOSTNAME=harbor.microservice.tw
+export INSTALL_REGISTRY_HOSTNAME=reg.microservice.tw
 export TAP_VERSION=1.3.3
 export INSTALL_REPO=tap133
 ```
@@ -158,18 +158,7 @@ kubectl create secret generic kapp-controller-config \
 ```
 
 ```gherkin=
-docker login registry.tanzu.vmware.com 
-
-imgpkg tag list -i registry.tanzu.vmware.com/tanzu-application-platform/tap-packages | grep -v sha | sort -V
-
-docker login $INSTALL_REGISTRY_HOSTNAME
-
-imgpkg copy -b registry.tanzu.vmware.com/tanzu-application-platform/tap-packages:${TAP_VERSION} --to-repo ${INSTALL_REGISTRY_HOSTNAME}/${INSTALL_REPO}/tap-packages
-```
-
-
-```gherkin=
-minikube start --kubernetes-version='1.22.8' --cpus='10' --memory='60g' --insecure-registry="harbor.microservice.tw"
+minikube start --kubernetes-version='1.22.8' --cpus='10' --memory='60g' --insecure-registry="reg.microservice.tw"
 
 minikube tunnel
 ```
