@@ -98,6 +98,7 @@ docker login reg.microservice.tw
 ```
 讓 minikube 接受自簽憑證 
 ---
+> 方法1:
 ```gherkin=
 minikube start --insecure-registry="reg.microservice.tw"
 ```
@@ -112,6 +113,11 @@ docker push reg.microservice.tw/repo/nginx
 ```gherkin=
 kubectl create deploy nginx --image=reg.microservice.tw/repo/nginx
 kubectl get deploy nginx
+```
+
+> 方法2:請參考官網
+```gherkin=
+https://minikube.sigs.k8s.io/docs/handbook/untrusted_certs/
 ```
 
 讓 kapp-controller 接受自簽憑證(自行安裝 kapp-controller 為例)
