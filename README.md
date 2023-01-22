@@ -149,13 +149,6 @@ data:
 k delete pod kapp-controller-xxxxxx -n kapp-controller 
 ```
 
-```gherkin=
-export INSTALL_REGISTRY_USERNAME=admin
-export INSTALL_REGISTRY_PASSWORD=VMware1!
-export INSTALL_REGISTRY_HOSTNAME=reg.microservice.tw
-export TAP_VERSION=1.3.3
-export INSTALL_REPO=tap133
-```
 > 方法2：部署 secret
 ```gherkin=
 kubectl create secret generic kapp-controller-config \
