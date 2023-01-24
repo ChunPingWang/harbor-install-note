@@ -91,7 +91,7 @@ ls /etc/ssl/certs | awk /microservice.tw/
 ```gherkin=
 sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain reg.microservice.tw.crt
 ```
-
+> 重啟 Mac 上的 Docker
 > 登入建好的 Harbor，驗證正確性
 ```gherkin=
 docker login reg.microservice.tw
